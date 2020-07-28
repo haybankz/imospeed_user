@@ -2,13 +2,14 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:imospeed_user/screen/login_screen.dart';
+import 'package:imospeed_user/util/constants.dart';
 import 'package:imospeed_user/util/margin.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   static final style = TextStyle(
     fontSize: 30,
-    fontFamily: "Billy",
+//    fontFamily: "Billy",
     fontWeight: FontWeight.w600,
   );
 
@@ -36,8 +37,8 @@ class _OnBoardingState extends State<OnBoardingScreen> {
           color: Colors.white,
           type: MaterialType.circle,
           child: new Container(
-            width: 8.0 * zoom,
-            height: 8.0 * zoom,
+            width: 4.0 * zoom,
+            height: 4.0 * zoom,
           ),
         ),
       ),
@@ -49,7 +50,7 @@ class _OnBoardingState extends State<OnBoardingScreen> {
 
     final pages = [
       Container(
-        color: Colors.pink,
+        color: Constants.darkAccent,
         width: double.infinity,
         height: double.infinity,
         child: Column(
@@ -81,7 +82,7 @@ class _OnBoardingState extends State<OnBoardingScreen> {
         ),
       ),
       Container(
-        color: Colors.deepPurpleAccent,
+        color: Constants.yellow,
         width: double.infinity,
         height: double.infinity,
         child: Column(
@@ -113,7 +114,7 @@ class _OnBoardingState extends State<OnBoardingScreen> {
         ),
       ),
       Container(
-        color: Colors.greenAccent,
+        color: Constants.lightAccent,
         width: double.infinity,
         height: double.infinity,
         child: Column(
@@ -144,40 +145,40 @@ class _OnBoardingState extends State<OnBoardingScreen> {
           ],
         ),
       ),
+//      Container(
+//        color: Constants.yellow,
+//        width: double.infinity,
+//        height: double.infinity,
+//        child: Column(
+//          crossAxisAlignment: CrossAxisAlignment.center,
+//          mainAxisSize: MainAxisSize.max,
+//          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//          children: <Widget>[
+//            FlutterLogo(),
+//            Padding(
+//              padding: EdgeInsets.all(20.0),
+//            ),
+//            Column(
+//              children: <Widget>[
+//                Text(
+//                  "Can be",
+//                  style: OnBoardingScreen.style,
+//                ),
+//                Text(
+//                  "Used for",
+//                  style: OnBoardingScreen.style,
+//                ),
+//                Text(
+//                  "Onboarding Design",
+//                  style: OnBoardingScreen.style,
+//                ),
+//              ],
+//            ),
+//          ],
+//        ),
+//      ),
       Container(
-        color: Colors.yellowAccent,
-        width: double.infinity,
-        height: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            FlutterLogo(),
-            Padding(
-              padding: EdgeInsets.all(20.0),
-            ),
-            Column(
-              children: <Widget>[
-                Text(
-                  "Can be",
-                  style: OnBoardingScreen.style,
-                ),
-                Text(
-                  "Used for",
-                  style: OnBoardingScreen.style,
-                ),
-                Text(
-                  "Onboarding Design",
-                  style: OnBoardingScreen.style,
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-      Container(
-        color: Colors.redAccent,
+        color: Constants.yellow,
         width: double.infinity,
         height: double.infinity,
         child: Column(
@@ -238,7 +239,7 @@ class _OnBoardingState extends State<OnBoardingScreen> {
                   Expanded(child: SizedBox()),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: List<Widget>.generate(5, _buildDot),
+                    children: List<Widget>.generate(pages.length, _buildDot),
                   ),
                 ],
               ),

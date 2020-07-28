@@ -58,7 +58,7 @@ class _LandingState extends State<LandingScreen> {
       body: Container(
 //        margin: EdgeInsets.only(left: 40.0, right: 40.0),
         child: Center(
-          child: Image.asset('assets/images/imospeed_logo_square.png', height: 100, width: 100),
+          child: Image.asset('assets/images/imospeed_logo_square.png', height: 160, width: 160),
         ),
       ),
     );

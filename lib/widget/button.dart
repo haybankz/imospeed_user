@@ -16,28 +16,15 @@ class ButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width == 0.0 ? screenWidth(context,percent: 0.9) : width,
-
-//      padding: EdgeInsets.only(top: 6, bottom: 6),
-//      decoration: BoxDecoration(
-////        color: yellow,
-//        boxShadow: [
-//          new BoxShadow(
-//            offset: Offset(0, 0),
-//            spreadRadius: -5,
-//            color: yellow.withOpacity(0.7),
-//            blurRadius: 10,
-//          ),
-//        ],
-//      ),
       child: RaisedButton(
         elevation: 0,
         onPressed: enabled && !loading ? onPressed : (){},
-        splashColor: Constants.darkAccent.withOpacity(0.2),
-        color: Constants.darkAccent,
+        splashColor: Colors.white.withOpacity(0.08),
+        color: Constants.lightAccent,
         child: !loading ? Text(
           text,
-          style: TextStyle(color: Constants.lightPrimary, fontWeight: FontWeight.w600)
-        ) : Container( height: 20, width: 20, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Constants.lightPrimary))
+          style: TextStyle(color: Constants.lightPrimary, fontWeight: FontWeight.w600, fontSize: 15)
+        ) : Container( height: 20, width: 20, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Constants.lightPrimary), strokeWidth: 2,)
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
