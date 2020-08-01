@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:imospeed_user/screen/landing_screen.dart';
+import 'package:imospeed_user/screen/register_screen.dart';
 import 'package:imospeed_user/util/constants.dart';
 import 'package:imospeed_user/util/margin.dart';
 import 'package:imospeed_user/util/validator.dart';
@@ -14,10 +15,11 @@ class LoginScreen extends StatelessWidget{
   TextEditingController _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
 //      resizeToAvoidBottomInset: true,
-      body: SingleChildScrollView(
-        child: Container(
+      child: Scaffold(
+//        resizeToAvoidBottomInset: false,
+        body: SingleChildScrollView(
           child: Stack(
             children: <Widget>[
               Container(
@@ -39,12 +41,13 @@ class LoginScreen extends StatelessWidget{
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Image.asset('assets/images/imospeed_logo.png', height: 180, width: 180),
-                      YMargin(20),
+                      Image.asset('assets/images/imospeed_logo.png', height: 100, width: 180),
+                      YMargin(10),
                       Text('Sign in to your account', style: TextStyle(color: Constants.lightPrimary, fontSize: 18, fontWeight: FontWeight.w700),),
                       YMargin(16),
                       TextInputWidget(controller: _emailController,
                         hintText: 'Email', titleText: "",
+                        keyboardType: TextInputType.emailAddress,
                         validator: (value){
                           if(isEmail(value)) return null;
                           return 'Enter a valid email';
@@ -73,7 +76,9 @@ class LoginScreen extends StatelessWidget{
                         ],
                       ),
                       YMargin(20),
-                      ButtonWidget(text: 'Login', onPressed: (){},
+                      ButtonWidget(text: 'Login', onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => RegisterScreen()));
+                      },
                       enabled: true,),
                       YMargin(14),
                       RichText(

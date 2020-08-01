@@ -18,6 +18,7 @@ class Constants{
   static Color darkAccent = Color(0xff0A472C);
   static Color lightBG = Color(0xfffcfcff);
   static Color darkBG = Colors.black;
+  static Color textColor = Color(0xff014024);
   static Color yellow = Color(0xffF49D0E);
 //  static Color ratingBG = Colors.yellow[600];
 
@@ -31,9 +32,9 @@ class Constants{
     appBarTheme: AppBarTheme(
       textTheme: TextTheme(
         headline6: TextStyle(
-          color: darkBG,
+          color: textColor,
           fontSize: 18.0,
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w600,
         ),
       ),
 //      iconTheme: IconThemeData(
@@ -56,7 +57,7 @@ class Constants{
         headline6: TextStyle(
           color: lightBG,
           fontSize: 18.0,
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w600,
         ),
       ),
 //      iconTheme: IconThemeData(
