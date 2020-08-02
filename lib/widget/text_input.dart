@@ -8,9 +8,11 @@ class TextInputWidget extends StatefulWidget {
   final String titleText;
   final TextInputType keyboardType;
   final String Function(String) validator;
+  final IconData iconData;
 
   TextInputWidget({ @required this.controller, @required this.hintText,
-    this.titleText, this.keyboardType = TextInputType.text, this.validator});
+    this.titleText, this.keyboardType = TextInputType.text, this.validator,
+    this.iconData = Icons.perm_identity});
 
   @override
   _TextInputState createState() => _TextInputState();
@@ -81,7 +83,7 @@ class _TextInputState extends State<TextInputWidget> {
           hintText: widget.hintText,
           hintStyle: TextStyle(fontSize: 15.0, color: Colors.grey),
           prefixIcon: Icon(
-            Icons.perm_identity,
+            widget.iconData,
             color: Colors.black,
           ),
         ),

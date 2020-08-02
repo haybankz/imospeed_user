@@ -209,7 +209,10 @@ class _OnBoardingState extends State<OnBoardingScreen> {
 
                   alignment: Alignment.bottomRight,
                   child: FlatButton(onPressed: (){
+
                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+//                  pageChangeCallback(0);
+
                   }, child: Text("Get Started",)),
                 )
               ],
@@ -225,12 +228,14 @@ class _OnBoardingState extends State<OnBoardingScreen> {
             LiquidSwipe(
               pages: pages,
               fullTransitionValue: 900,
-              enableSlideIcon: false,
+              enableSlideIcon: page < pages.length - 1,
               enableLoop: false,
-              positionSlideIcon: 0.5,
+              positionSlideIcon: 0.7,
               onPageChangeCallback: pageChangeCallback,
               currentUpdateTypeCallback: updateTypeCallback,
               waveType: WaveType.liquidReveal,
+
+
             ),
             Padding(
               padding: EdgeInsets.all(20),

@@ -12,7 +12,7 @@ class PasswordInput extends StatefulWidget {
   final String Function(String) validator;
 
   PasswordInput({ @required this.controller, @required this.hintText, this.showObscure = false,
-     this.keyboardType = TextInputType.text, this.validator});
+     this.keyboardType = TextInputType.visiblePassword, this.validator});
 
   @override
   _PasswordInputState createState() => _PasswordInputState();
@@ -92,7 +92,7 @@ class _PasswordInputState extends State<PasswordInput> {
                   hintText: widget.hintText,
                   hintStyle: TextStyle(fontSize: 15.0, color: Colors.grey),
                   prefixIcon: Icon(
-                    Icons.lock,
+                    Icons.lock_outline,
                     color: Colors.black,
                   ),
                 ),
@@ -105,14 +105,16 @@ class _PasswordInputState extends State<PasswordInput> {
               width: 48,
               child: FlatButton(
                 onPressed: _toggle,
-                child: _obscureText
-                    ? Icon(Icons.arrow_forward,
+                child: !_obscureText
+                    ? ImageIcon(
+                  AssetImage('assets/icons/hide_pass.png'),
                   color: Constants.lightAccent,
-                  size: 18,
+                  size: 16,
                 )
-                    : Icon(Icons.arrow_back,
-                    color: Constants.lightAccent,
-                    size: 18
+                    : ImageIcon(
+                  AssetImage('assets/icons/show_pass.png'),
+                  color: Constants.lightAccent,
+                  size: 16,
                 ),
                 splashColor: Colors.transparent,
 //              color: Colors.white,
