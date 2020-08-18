@@ -16,7 +16,7 @@ class LandingScreen extends StatefulWidget{
 class _LandingState extends State<LandingScreen> {
 
   startTimeout() {
-    return  Timer(Duration(seconds: 2), checkFirstSeen);
+    return  Timer(Duration(milliseconds: 500), checkFirstSeen);
   }
 
   Future checkFirstSeen() async {
@@ -62,9 +62,9 @@ class _LandingState extends State<LandingScreen> {
       backgroundColor: Theme.of(context).primaryColor,
       body: Container(
 //        margin: EdgeInsets.only(left: 40.0, right: 40.0),
-        child: Center(
-          child: Image.asset('assets/images/imospeed_logo_square.png', height: 160, width: 160),
-        ),
+//        child: Center(
+//          child: Image.asset('assets/images/imospeed_logo_square.png', height: 160, width: 160),
+//        ),
       ),
     );
   }

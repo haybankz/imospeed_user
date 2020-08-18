@@ -5,13 +5,11 @@ class TextInputWidget extends StatefulWidget {
 //  Key key;
   final TextEditingController controller;
   final String hintText;
-  final String titleText;
   final TextInputType keyboardType;
   final String Function(String) validator;
   final IconData iconData;
 
-  TextInputWidget({ @required this.controller, @required this.hintText,
-    this.titleText, this.keyboardType = TextInputType.text, this.validator,
+  TextInputWidget({ @required this.controller, @required this.hintText, this.keyboardType = TextInputType.text, this.validator,
     this.iconData = Icons.perm_identity});
 
   @override

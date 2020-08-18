@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:imospeed_user/screen/forgot_password.dart';
+import 'package:imospeed_user/screen/home_screen.dart';
 import 'package:imospeed_user/screen/landing_screen.dart';
 import 'package:imospeed_user/screen/register_screen.dart';
 import 'package:imospeed_user/util/constants.dart';
@@ -49,7 +50,7 @@ class LoginScreen extends StatelessWidget{
                       shrinkWrap: true,
                       children: <Widget>[
                         TextInputWidget(controller: _emailController,
-                          hintText: 'Email', titleText: "",
+                          hintText: 'Email',
                           keyboardType: TextInputType.emailAddress,
                           validator: (value){
                             if(isEmail(value)) return null;
@@ -83,7 +84,7 @@ class LoginScreen extends StatelessWidget{
                         ),
                         YMargin(20),
                         ButtonWidget(text: 'Login', onPressed: (){
-//                          Navigator.push(context, MaterialPageRoute(builder: (_) => RegisterScreen()));
+                          Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen()));
                         },
                           enabled: true,),
                         YMargin(10),

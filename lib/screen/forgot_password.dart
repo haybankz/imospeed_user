@@ -46,7 +46,7 @@ class ForgotPasswordScreen extends StatelessWidget{
                     shrinkWrap: true,
                     children: <Widget>[
                       TextInputWidget(controller: _emailController,
-                        hintText: 'Email', titleText: "",
+                        hintText: 'Email',
                         keyboardType: TextInputType.emailAddress,
                         validator: (value){
                           if(isEmail(value)) return null;

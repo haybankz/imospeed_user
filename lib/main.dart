@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:imospeed_user/provider/app_provider.dart';
+import 'package:imospeed_user/screen/add_address_screen.dart';
 import 'package:imospeed_user/screen/landing_screen.dart';
 import 'package:imospeed_user/screen/onboarding_screen.dart';
+import 'package:imospeed_user/screen/rate_calculator.dart';
 import 'package:imospeed_user/util/constants.dart';
 import 'package:provider/provider.dart';
 
@@ -30,7 +32,8 @@ class MyApp extends StatelessWidget {
           theme: appProvider.theme,
 //          darkTheme: Constants.darkTheme,
 //          home: SplashScreen(),
-          home: LandingScreen(),
+          home: RateCalculatorScreen(),
+//          home: LandingScreen(),
         );
       },
     );
