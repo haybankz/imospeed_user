@@ -1,12 +1,20 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:imospeed_user/model/request/signup_request.dart';
+import 'package:imospeed_user/model/response/sign_up_response.dart';
+import 'package:imospeed_user/provider/auth_provider.dart';
+import 'package:imospeed_user/screen/bottom_navigation/pin_confirmation_screen.dart';
 import 'package:imospeed_user/screen/login_screen.dart';
+import 'package:imospeed_user/service/api_response.dart';
 import 'package:imospeed_user/util/constants.dart';
 import 'package:imospeed_user/util/margin.dart';
+import 'package:imospeed_user/util/validator.dart';
 import 'package:imospeed_user/widget/button.dart';
 import 'package:imospeed_user/widget/password_input.dart';
 import 'package:imospeed_user/widget/phone_input.dart';
 import 'package:imospeed_user/widget/text_input.dart';
+import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 
 class RegisterScreen extends StatefulWidget{
 
@@ -16,18 +24,23 @@ class RegisterScreen extends StatefulWidget{
 
 class _RegisterState extends State<RegisterScreen>{
 
-  TextEditingController phoneController  = TextEditingController();
+  TextEditingController _firstNameController  = TextEditingController();
+  TextEditingController _lastNameController  = TextEditingController();
+  TextEditingController _phoneController  = TextEditingController();
+  TextEditingController _emailController  = TextEditingController();
+  TextEditingController _passwordController  = TextEditingController();
+  TextEditingController _confirmPasswordController  = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+
+  AuthProvider _authProvider;
+
   @override
   Widget build(BuildContext context) {
+
+    _authProvider = Provider.of<AuthProvider>(context);
+
     return Scaffold(
-//        resizeToAvoidBottomInset: false,
-//      resizeToAvoidBottomPadding: false,
-      //      appBar: AppBar(
-//        elevation: 3.0,
-//        title: Text('Create an account'),
-////        automaticallyImplyLeading: false,
-//        centerTitle: false,
-//      ),
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
@@ -53,44 +66,89 @@ class _RegisterState extends State<RegisterScreen>{
               YMargin(16),
               Expanded(
                 child: SingleChildScrollView(
-                  child: Column(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
 //                    shrinkWrap: true,
 //                    physics: NeverScrollableScrollPhysics(),
-                    children: <Widget>[
-                      TextInputWidget(controller: null, hintText: "First Name"),
-                      YMargin(6),
-                      TextInputWidget(controller: null, hintText: "Last Name"),
-                      YMargin(6),
-                      TextInputWidget(controller: null, hintText: "Email", iconData: Icons.mail_outline,
-                        keyboardType: TextInputType.emailAddress,),
-                      YMargin(6),
-                      PhoneInput(hintText: 'Phone Number', titleText: '', controller: phoneController),
-                      YMargin(6),
-                      PasswordInput(controller: null, hintText: "Password",),
-                      YMargin(6),
-                      PasswordInput(controller: null, hintText: "Confirm Password",),
-                      YMargin(20),
-                      ButtonWidget(text: 'Create account', onPressed: (){}),
-                      YMargin(10),
-                      RichText(
-                        text: TextSpan(
-                          text: 'Already have an account? ',
-                          style: TextStyle(color: Constants.lightPrimary, fontSize: 15),
-                          children: <TextSpan>[
-                            TextSpan(
-                                text: 'Sign in',
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () async {
-                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> LoginScreen()));
-                                  },
-                                style: TextStyle(color: Constants.lightAccent, fontSize: 15)
-                            ),
-                          ],
+                      children: <Widget>[
+                        TextInputWidget(controller: _firstNameController, hintText: "First Name", validator: (value){
+                          if(value.length < 2) return 'Enter a valid name';
+                          return null;
+                        },),
+                        YMargin(6),
+                        TextInputWidget(controller: _lastNameController, hintText: "Last Name", validator: (value){
+                          if(value.length < 2) return 'Enter a valid name';
+                          return null;
+                        },),
+                        YMargin(6),
+                        TextInputWidget(controller: _emailController, hintText: "Email", iconData: Icons.mail_outline,
+                          keyboardType: TextInputType.emailAddress, validator: (value){
+                            if(isEmail(value)) return null;
+                            return 'Enter a valid email address';
+                          },),
+                        YMargin(6),
+                        PhoneInput(hintText: 'Phone Number', controller: _phoneController, validator: (value){
+                          if(value.length < 11) return 'Enter a phone number';
+                          return null;
+                        },),
+                        YMargin(6),
+                        PasswordInput(controller: _passwordController, hintText: "Password", validator: (value){
+                          if(value.length < 8) return 'Password must be more than 7 characters ';
+                          if(_confirmPasswordController.text.trim() != value.trim()) return 'Passwords do not match';
+                          return null;
+                        },),
+                        YMargin(6),
+                        PasswordInput(controller: _confirmPasswordController, hintText: "Confirm Password",validator: (value){
+                          if(value.length < 8) return 'Password must be more than 7 characters ';
+                          if(_passwordController.text.trim() != value.trim()) return 'Passwords do not match';
+                          return null;
+                        },),
+                        YMargin(20),
+                        ButtonWidget(
+                          loading: _authProvider.signUpResponse.status == Status.LOADING,
+                            text: 'Create account',
+                            onPressed: () async {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          _formKey.currentState.save();
+
+                          if(_formKey.currentState.validate()){
+                            SignUpRequest request = SignUpRequest(email: _emailController.text.trim(),
+                            firstName: _firstNameController.text.trim(), lastName: _lastNameController.text.trim(),
+                            password: _passwordController.text.trim(), passwordConfirmation: _confirmPasswordController.text.trim(),
+                            phone: _phoneController.text.trim());
+
+                            ApiResponse<SignUpResponse> response = await _authProvider.signUp(request);
+                            if(response.status == Status.COMPLETED){
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (_)=> PinConfirmationScreen(email: _emailController.text.trim(),
+                                    pinConfirmationType: PinConfirmationType.PIN_CONFIRMATION,)));
+                            }else{
+                              Toast.show(response.message, context, duration: 2);
+                            }
+                          }
+                        }),
+                        YMargin(10),
+                        RichText(
+                          text: TextSpan(
+                            text: 'Already have an account? ',
+                            style: TextStyle(color: Constants.lightPrimary, fontSize: 15),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: 'Sign in',
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () async {
+                                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> LoginScreen()));
+                                    },
+                                  style: TextStyle(color: Constants.lightAccent, fontSize: 15)
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
 
 
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:imospeed_user/util/constants.dart';
 
 
 class TextInputWidget extends StatefulWidget {
@@ -8,9 +10,10 @@ class TextInputWidget extends StatefulWidget {
   final TextInputType keyboardType;
   final String Function(String) validator;
   final IconData iconData;
+  final List<TextInputFormatter> inputFormatter;
 
   TextInputWidget({ @required this.controller, @required this.hintText, this.keyboardType = TextInputType.text, this.validator,
-    this.iconData = Icons.perm_identity});
+    this.iconData = Icons.perm_identity, this.inputFormatter = const []});
 
   @override
   _TextInputState createState() => _TextInputState();
@@ -60,6 +63,8 @@ class _TextInputState extends State<TextInputWidget> {
         ),
       ),
       child: TextFormField(
+        keyboardType: widget.keyboardType,
+        inputFormatters: widget.inputFormatter,
         style: TextStyle(
           fontSize: 15.0,
           color: Colors.black,
@@ -82,7 +87,7 @@ class _TextInputState extends State<TextInputWidget> {
           hintStyle: TextStyle(fontSize: 15.0, color: Colors.grey),
           prefixIcon: Icon(
             widget.iconData,
-            color: Colors.black,
+            color: Constants.darkAccent,
           ),
         ),
         validator: widget.validator,

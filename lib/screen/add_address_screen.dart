@@ -26,6 +26,7 @@ class AddAddressScreen extends StatelessWidget {
         title: Text('New ${addressType == AddressType.PICKUP ? 'Pickup' : 'Delivery'} Address'),
         centerTitle: true,
       ),
+      backgroundColor: Constants.offWhite,
       body: _newAddressWidget(context),
     );
   }
@@ -69,7 +70,7 @@ class AddAddressScreen extends StatelessWidget {
                 return null;
               }),
 
-              YMargin(10),
+              YMargin(20),
 
               ButtonWidget(text: 'Save',
                   width: screenWidth(context),

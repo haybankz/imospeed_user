@@ -66,7 +66,7 @@ class _TitledTextInputState extends State<TitledTextInputWidget> {
                 hintStyle: TextStyle(fontSize: 15.0, color: Colors.grey),
                 prefixIcon: Icon(
                   widget.iconData,
-                  color: Colors.black,
+                  color: Constants.darkAccent,
                 ),
               ),
               validator: widget.validator,

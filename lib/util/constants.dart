@@ -21,6 +21,7 @@ class Constants{
   static Color textColor = Color(0xff014024);
   static Color yellow = Color(0xffF49D0E);
 //  static Color ratingBG = Colors.yellow[600];
+  static Color offWhite = Color(0xfff2f2f2);
 
   static ThemeData lightTheme = ThemeData(
     backgroundColor: lightBG,
@@ -66,5 +67,8 @@ class Constants{
     ),
   );
 
+
+  static const String kToken = 'token';
+  static const String kName = 'name';
 
 }

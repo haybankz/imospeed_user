@@ -1,22 +1,41 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:imospeed_user/locator.dart';
+import 'package:imospeed_user/model/request/login_request.dart';
+import 'package:imospeed_user/model/response/login_response.dart';
+import 'package:imospeed_user/provider/auth_provider.dart';
 import 'package:imospeed_user/screen/forgot_password.dart';
 import 'package:imospeed_user/screen/home_screen.dart';
-import 'package:imospeed_user/screen/landing_screen.dart';
 import 'package:imospeed_user/screen/register_screen.dart';
+import 'package:imospeed_user/service/api_response.dart';
+import 'package:imospeed_user/service/repository/auth_repository.dart';
 import 'package:imospeed_user/util/constants.dart';
 import 'package:imospeed_user/util/margin.dart';
 import 'package:imospeed_user/util/validator.dart';
 import 'package:imospeed_user/widget/button.dart';
 import 'package:imospeed_user/widget/password_input.dart';
 import 'package:imospeed_user/widget/text_input.dart';
+import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 
-class LoginScreen extends StatelessWidget{
+class LoginScreen extends StatelessWidget {
 
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+//  @override
+//  _LoginState createState() => _LoginState();
+//}
+//class _LoginState extends State<LoginScreen>{
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  AuthProvider _authProvider;
+
   @override
   Widget build(BuildContext context) {
+
+    _authProvider = Provider.of<AuthProvider>(context);
+
     return Scaffold(
 //        resizeToAvoidBottomInset: false,
       body: Stack(
@@ -44,7 +63,9 @@ class LoginScreen extends StatelessWidget{
                   YMargin(10),
                   Text('Sign in to your account', style: TextStyle(color: Constants.lightPrimary, fontSize: 18, fontWeight: FontWeight.w700),),
                   YMargin(16),
-                  Container(
+                  Form(
+                    key: _formKey,
+                    child: Container(
                     child: ListView(
                       padding: EdgeInsets.zero,
                       shrinkWrap: true,
@@ -64,8 +85,8 @@ class LoginScreen extends StatelessWidget{
                           if(value.length <= 8) return 'Password must be more than 7 letters';
                           return null;
                         },
-                        showObscure: true,
-                        keyboardType: TextInputType.visiblePassword,),
+                          showObscure: true,
+                          keyboardType: TextInputType.visiblePassword,),
                         YMargin(6),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -83,8 +104,24 @@ class LoginScreen extends StatelessWidget{
                           ],
                         ),
                         YMargin(20),
-                        ButtonWidget(text: 'Login', onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen()));
+                        ButtonWidget(
+                          text: 'Login',
+                          loading: _authProvider.loginResponse.status == Status.LOADING,
+                          onPressed: () async {
+                            FocusScope.of(context).requestFocus(FocusNode());
+                          _formKey.currentState.save();
+                          if(_formKey.currentState.validate()){
+
+                            LoginRequest request = LoginRequest(email: _emailController.text.trim(), password: _passwordController.text.trim());
+                            ApiResponse<LoginResponse> response = await _authProvider.login(request);
+
+                            if(response.status == Status.COMPLETED){
+                              Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen()));
+                            }else{
+                              Toast.show(response.message, context, duration: 2);
+                            }
+                          }
+
                         },
                           enabled: true,),
                         YMargin(10),
@@ -108,7 +145,8 @@ class LoginScreen extends StatelessWidget{
                         ),
                       ],
                     ),
-                  ),
+                  ),),
+
 
 
                 ],
