@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:imospeed_user/model/area_city.dart';
+import 'package:imospeed_user/provider/rate_calculator_provider.dart';
+import 'package:imospeed_user/service/api_response.dart';
 import 'package:imospeed_user/util/constants.dart';
 import 'package:imospeed_user/util/margin.dart';
 import 'package:imospeed_user/widget/button.dart';
 import 'package:imospeed_user/widget/drop_down.dart';
 import 'package:imospeed_user/widget/text_input.dart';
+import 'package:provider/provider.dart';
 
 class RateCalculatorScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
+  RateCalculatorProvider _provider;
 
   @override
   Widget build(BuildContext context) {
+    _provider = Provider.of<RateCalculatorProvider>(context);
     return Scaffold(
       backgroundColor: Constants.offWhite,
       appBar: AppBar(
@@ -57,6 +63,7 @@ class RateCalculatorScreen extends StatelessWidget {
               YMargin(20),
               ButtonWidget(text: 'Calculate Delivery Fee', onPressed: (){
                 FocusScope.of(context).requestFocus(FocusNode());
+                _provider.calculate();
               }),
               YMargin(10),
 
@@ -70,19 +77,48 @@ class RateCalculatorScreen extends StatelessWidget {
   }
 
   Widget _fromState(){
-    return DropDownWidget(hintText: 'Select State', onSelect: (value){});
+    return StateDropDownWidget(hintText: 'Select State', onSelect: (value){
+      _provider.getFromArea(int.parse(value));
+    });
   }
 
   Widget _fromLGA(){
-    return DropDownWidget(hintText: 'Select LGA', onSelect: (value){});
+    if(_provider.fromAreaResponse.status == Status.LOADING) {
+      return AreaDropDownWidget(hintText: 'Loading ...',
+          onSelect: (value) {},
+      areas: null,);
+    }else{
+//      if(_provider.fromAreaResponse.data == null){
+//        return AreaDropDownWidget(hintText: 'Select LGA',
+//          onSelect: (value) {},
+//          areas: [],);
+//      }else{
+        return AreaDropDownWidget(hintText: 'Select Neighbourhood',
+          onSelect: (value) {
+          _provider.setFromAreaId(value);
+          },
+          areas: _provider.fromAreaResponse.data.areaCities,);
+//      }
+    }
   }
 
 
   Widget _toState(){
-    return DropDownWidget(hintText: 'Select State', onSelect: (value){});
+    return StateDropDownWidget(hintText: 'Select State', onSelect: (value){
+      _provider.getToArea(int.parse(value));
+    });
   }
 
   Widget _toLGA(){
-    return DropDownWidget(hintText: 'Select LGA', onSelect: (value){});
+    if(_provider.toAreaResponse.status == Status.LOADING) {
+//      return AreaDropDownWidget(hintText: 'Select Neighbourhood', onSelect: (value) {}, areas: null,);
+      return AreaDropDownWidget(hintText: 'Loading ...', onSelect: (value) {}, areas: null,);
+    }else{
+      return AreaDropDownWidget(hintText: 'Select Neighbourhood',
+        onSelect: (value) {
+        _provider.setToAreaId(value);
+        },
+        areas: _provider.toAreaResponse.data.areaCities,);
+    }
   }
 }

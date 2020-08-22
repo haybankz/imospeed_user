@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:imospeed_user/model/response/AreaResponse.dart';
+import 'package:imospeed_user/model/response/area_response.dart';
 import 'package:imospeed_user/model/response/states_response.dart';
 import 'package:imospeed_user/service/api_helper.dart';
 import 'package:imospeed_user/service/api_response.dart';
@@ -15,9 +15,9 @@ class StateRepository {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString(Constants.kToken);
 
-    Map<String, dynamic> headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
+    dynamic headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
 
-    return _helper.get('fetch-states', headers).then((data){
+    return _helper.get('/fetch-states', headers).then((data){
       if(data.statusCode == 200){
         return ApiResponse<StatesResponse>.completed(StatesResponse.fromJson(json.decode(data.body)));
       }
@@ -32,7 +32,7 @@ class StateRepository {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString(Constants.kToken);
 
-    Map<String, dynamic> headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
+    dynamic headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
 
     return _helper.get('/fetch-state-cities/$stateId', headers).then((data){
       if(data.statusCode == 200){

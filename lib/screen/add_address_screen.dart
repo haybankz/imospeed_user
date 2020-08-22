@@ -87,13 +87,13 @@ class AddAddressScreen extends StatelessWidget {
   }
 
   Widget _stateDropDown(){
-    return TitledDropDownWidget( hintText: 'E.g Lagos', titleText: 'Select State', onSelect: (value){
+    return TitledStateDropDownWidget( hintText: 'E.g Lagos', titleText: 'Select State', onSelect: (value){
       print('value: $value');
     },);
   }
 
   Widget _neighbourhoodDropDown(){
-    return TitledDropDownWidget( hintText: 'E.g Agboyi/Ketu', titleText: 'Select Neighbourhood', onSelect: (value){
+    return TitledStateDropDownWidget( hintText: 'E.g Agboyi/Ketu', titleText: 'Select Neighbourhood', onSelect: (value){
       print('value: $value');
     },);
   }
