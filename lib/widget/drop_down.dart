@@ -35,7 +35,7 @@ class _StateDropDownState extends State<StateDropDownWidget> {
           child: Container(child: Text(widget.hintText, style: TextStyle(fontSize: 15, color: Constants.darkAccent),))),
 
     ];
-    if(_stateProvider.stateResponse.status == Status.COMPLETED){
+    if(_stateProvider.stateResponse.status == Status.COMPLETED && _stateProvider.stateResponse.data != null){
       for(final state in _stateProvider.stateResponse.data.states){
         list.add(DropdownMenuItem(
             value: state.id.toString(),

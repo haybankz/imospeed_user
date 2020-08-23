@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:imospeed_user/provider/address_provider.dart';
 import 'package:imospeed_user/provider/rate_calculator_provider.dart';
 import 'package:imospeed_user/provider/state_provider.dart';
+import 'package:imospeed_user/screen/my_address_screen.dart';
 import 'package:imospeed_user/screen/rate_calculator_screen.dart';
 import 'package:imospeed_user/util/margin.dart';
 import 'package:imospeed_user/widget/button.dart';
@@ -23,7 +25,20 @@ class DashBoardScreen extends StatelessWidget{
               _p.reset();
               Navigator.push(context, MaterialPageRoute(builder: (_) => RateCalculatorScreen()));
             }),
-          )
+          ),
+
+          YMargin(20),
+
+          Consumer<AddressProvider>(
+            builder: (ctx, provider, widget) => ButtonWidget(text: 'My Address',
+                width: screenWidth(context),
+                onPressed: (){
+                  provider.getPickUpAddresses();
+                  provider.getDeliveryAddresses();
+
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => MyAddressScreen()));
+                }),
+          ),
         ],
       ),
     );

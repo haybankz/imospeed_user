@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:imospeed_user/locator.dart';
+import 'package:imospeed_user/provider/address_provider.dart';
 import 'package:imospeed_user/provider/app_provider.dart';
 import 'package:imospeed_user/provider/auth_provider.dart';
+import 'package:imospeed_user/provider/new_address_provider.dart';
 import 'package:imospeed_user/provider/rate_calculator_provider.dart';
 import 'package:imospeed_user/provider/state_provider.dart';
 import 'package:imospeed_user/screen/add_address_screen.dart';
@@ -20,6 +22,8 @@ void main() {
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => StateProvider()),
         ChangeNotifierProvider(create: (_) => RateCalculatorProvider()),
+        ChangeNotifierProvider(create: (_) => AddressProvider()),
+        ChangeNotifierProvider(create: (_) => NewAddressProvider()),
       ],
       child: MyApp(),
     ),

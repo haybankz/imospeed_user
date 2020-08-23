@@ -1,4 +1,4 @@
-import 'package:imospeed_user/model/response/address.dart';
+import 'package:imospeed_user/model/address.dart';
 
 class AddressesResponse {
     final List<Address> addresses;

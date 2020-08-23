@@ -49,19 +49,37 @@ class ApiBaseHelper {
     return response;
   }
 
-  Future<http.Response> patch(String url, dynamic requestBody,
+  Future<http.Response> put(String url, dynamic requestBody,
       dynamic header) async {
-    print('call api patch request: $url');
+    print('call api put request: $url');
 
     var response;
     try {
       var b = json.encode(requestBody);
-      response = await http.patch(baseUrl + url, body: b, headers: header);
+      response = await http.put(baseUrl + url, body: b, headers: header);
 //      response = _returnResponse(response);
 //      print('code: ${response.statusCode} ${response.body.toString()}');
-      print('reply api patch request: $url : ${response.statusCode}');
+      print('reply api put request: $url : ${response.statusCode}');
     } on SocketException {
-      print('Error api patch request: $url');
+      print('Error api put request: $url');
+
+      throw Exception('No Internet connection');
+//      return null;
+    }
+    return response;
+  }
+
+  Future<http.Response> delete(String url, dynamic header) async {
+    print('call api delete request: $url');
+
+    var response;
+    try {
+      response = await http.delete(baseUrl + url, headers: header);
+//      response = _returnResponse(response);
+//      print('code: ${response.statusCode} ${response.body.toString()}');
+      print('reply api delete request: $url : ${response.statusCode}');
+    } on SocketException {
+      print('Error api delete request: $url');
 
       throw Exception('No Internet connection');
 //      return null;

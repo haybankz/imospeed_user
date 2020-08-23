@@ -88,10 +88,16 @@ class _RegisterState extends State<RegisterScreen>{
                             return 'Enter a valid email address';
                           },),
                         YMargin(6),
-                        PhoneInput(hintText: 'Phone Number', controller: _phoneController, validator: (value){
-                          if(value.length < 11) return 'Enter a phone number';
-                          return null;
-                        },),
+//                        PhoneInput(hintText: 'Phone Number', controller: _phoneController, validator: (value){
+//                          if(value.length < 11) return 'Enter a phone number';
+//                          return null;
+//                        },),
+                        TextInputWidget(controller: _phoneController, hintText: '07089000000', iconData: Icons.phone,
+                            keyboardType: TextInputType.phone,
+                            validator: (value){
+                              if(value.length < 11) return 'Enter a phone number';
+                              return null;
+                            }),
                         YMargin(6),
                         PasswordInput(controller: _passwordController, hintText: "Password", validator: (value){
                           if(value.length < 8) return 'Password must be more than 7 characters ';
