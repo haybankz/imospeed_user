@@ -1,15 +1,15 @@
 class Address {
-    final String city;
-    final String createdAt;
-    final String address;
-    final String person;
-    final String phone;
-    final String id;
-    final String state;
-    final String updatedAt;
-    final String userId;
-    final String stateName;
-    final String cityName;
+    String city;
+    String createdAt;
+    String address;
+    String person;
+    String phone;
+    String id;
+    String state;
+    String updatedAt;
+    String userId;
+    String stateName;
+    String cityName;
 
     Address({this.city, this.createdAt, this.address, this.person, this.phone, this.id, this.state, this.updatedAt, this.userId, this.stateName, this.cityName});
 
@@ -30,7 +30,7 @@ class Address {
     }
 
     Map<String, dynamic> toJson() {
-        final Map<String, dynamic> data = new Map<String, dynamic>();
+        Map<String, dynamic> data = new Map<String, dynamic>();
         data['city_from'] = this.city;
         data['created_at'] = this.createdAt;
         data['from_address'] = this.address;

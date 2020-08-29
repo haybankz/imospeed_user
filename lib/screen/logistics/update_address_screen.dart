@@ -115,7 +115,7 @@ class _UpdateAddressState extends State<UpdateAddressScreen> {
                   if(_formKey.currentState.validate()){
                     var request;
                     if(widget.addressType == AddressType.PICKUP) {
-                      request = PickUpAddressRequest(addressType: 'source',
+                      request = PickUpAddressRequest(addressType: Constants.kSource,
                           fromAddress: _addressController.text.trim(),
                           fromPerson: _nameController.text.trim(),
                           fromPhone: _phoneController.text.trim(),
@@ -123,7 +123,7 @@ class _UpdateAddressState extends State<UpdateAddressScreen> {
                         cityFrom: widget.address.city
                       );
                     }else{
-                      request = DeliveryAddressRequest(addressType: 'destination',
+                      request = DeliveryAddressRequest(addressType: Constants.kDestination,
                           toAddress: _addressController.text.trim(),
                           toPerson: _nameController.text.trim(),
                           toPhone: _phoneController.text.trim(),
@@ -135,6 +135,11 @@ class _UpdateAddressState extends State<UpdateAddressScreen> {
 
                     ApiResponse<String> response = await _provider.updateAddress(widget.address.id, request);
                     if(response.status == Status.COMPLETED){
+                      if(widget.addressType == AddressType.PICKUP){
+                        _provider.getPickUpAddresses();
+                      }else{
+                        _provider.getDeliveryAddresses();
+                      }
                       Toast.show(response.data, context, duration: Toast.LENGTH_LONG);
                       Navigator.pop(context);
                     }else{

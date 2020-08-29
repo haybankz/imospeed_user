@@ -33,15 +33,17 @@ class NewAddressScreen extends StatelessWidget{
     _addressProvider = Provider.of<AddressProvider>(context);
     _provider = Provider.of<NewAddressProvider>(context);
 
-    return Scaffold(
-      backgroundColor: Constants.offWhite,
-      appBar: AppBar(
-        brightness: Brightness.light,
-        elevation: 2,
-        title: Text('New ${addressType == AddressType.PICKUP ? 'Pick up' : 'Delivery'} address'),
-        centerTitle: true,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Constants.offWhite,
+        appBar: AppBar(
+          brightness: Brightness.light,
+          elevation: 2,
+          title: Text('New ${addressType == AddressType.PICKUP ? 'Pick up' : 'Delivery'} address'),
+          centerTitle: true,
+        ),
+        body: _newAddressWidget(context),
       ),
-      body: _newAddressWidget(context),
     );
   }
 
@@ -55,11 +57,11 @@ class NewAddressScreen extends StatelessWidget{
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('Address Information', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Constants.darkAccent),),
-            YMargin(10),
+//            YMargin(10),
             _state(),
             _area(),
 
-            TitledTextInputWidget(controller: _addressController, hintText: '12, Abuja Street', titleText: 'Enter street address', iconData: Icons.home,
+            TitledTextInputWidget(controller: _addressController, hintText: '12, Abuja Street', titleText: 'Street Address', iconData: Icons.home,
               validator: (value){
                 if(value.isEmpty) return 'Enter street address';
                 return null;
@@ -68,13 +70,13 @@ class NewAddressScreen extends StatelessWidget{
 
             YMargin(20),
             Text('Contact Person', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Constants.darkAccent),),
-            YMargin(10),
+//            YMargin(10),
             TitledTextInputWidget(controller: _nameController, hintText: 'Mr Adekunle Ciroma', titleText: 'Name', validator: (value){
               if(value.isEmpty) return 'Enter contact person\'s name';
               return null;
             },),
 
-            TitledTextInputWidget(controller: _phoneController, hintText: '07089000000', titleText: 'Phone number', iconData: Icons.phone,
+            TitledTextInputWidget(controller: _phoneController, hintText: '07089000000', titleText: 'Phone Number', iconData: Icons.phone,
                 keyboardType: TextInputType.phone,
                 validator: (value){
                   if(value.length < 11) return 'Enter a valid phone number';
@@ -93,12 +95,12 @@ class NewAddressScreen extends StatelessWidget{
                   if(_formKey.currentState.validate()){
                      var request;
                      if(addressType == AddressType.PICKUP) {
-                       request = PickUpAddressRequest(addressType: 'source',
+                       request = PickUpAddressRequest(addressType: Constants.kSource,
                            fromAddress: _addressController.text.trim(),
                            fromPerson: _nameController.text.trim(),
                            fromPhone: _phoneController.text.trim());
                      }else{
-                       request = DeliveryAddressRequest(addressType: 'destination',
+                       request = DeliveryAddressRequest(addressType: Constants.kDestination,
                             toAddress: _addressController.text.trim(),
                            toPerson: _nameController.text.trim(),
                            toPhone: _phoneController.text.trim()
@@ -108,7 +110,13 @@ class NewAddressScreen extends StatelessWidget{
                        ApiResponse<String> response = await _provider.saveAddress(addressType, request);
                        if(response.status == Status.COMPLETED){
                          Toast.show(response.data, context, duration: Toast.LENGTH_LONG);
+                         if(addressType == AddressType.PICKUP){
+                           _addressProvider.getPickUpAddresses();
+                         }else{
+                           _addressProvider.getDeliveryAddresses();
+                         }
                          Navigator.pop(context);
+
                        }else{
                          Toast.show(response.message, context, duration: Toast.LENGTH_LONG);
                        }
@@ -130,10 +138,11 @@ class NewAddressScreen extends StatelessWidget{
 
   Widget _area(){
     if(_provider.areaResponse.status == Status.LOADING) {
-//      return AreaDropDownWidget(hintText: 'Loading ...',
-//        onSelect: (value) {},
-//        areas: null,);
-      return Text('Loading areas...');
+
+      return Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Text('Loading areas...', style: TextStyle(color: Constants.yellow),),
+      );
     }else{
       try {
         return AreaDropDownWidget(hintText: 'Select Neighbourhood',

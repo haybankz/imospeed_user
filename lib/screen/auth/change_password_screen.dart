@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:imospeed_user/model/request/change_password_request.dart';
 import 'package:imospeed_user/model/response/change_password_response.dart';
 import 'package:imospeed_user/provider/auth_provider.dart';
-import 'package:imospeed_user/screen/login_screen.dart';
+import 'package:imospeed_user/screen/auth/login_screen.dart';
 import 'package:imospeed_user/service/api_response.dart';
 import 'package:imospeed_user/util/constants.dart';
 import 'package:imospeed_user/util/margin.dart';

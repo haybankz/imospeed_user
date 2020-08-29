@@ -4,14 +4,16 @@ import 'package:imospeed_user/util/margin.dart';
 
 class Error extends StatelessWidget {
   final String errorMessage;
-
+  Widget child;
   final Function onRetryPressed;
 
-  const Error({Key key, this.errorMessage, this.onRetryPressed})
+  Error({Key key, this.errorMessage, this.onRetryPressed, this.child})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    if(child == null) child = Constants.smallError;
+
     return Container(
 //      width: screenWidth(context),
 //      height: screenHeight(context),
@@ -19,12 +21,13 @@ class Error extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            child,
             Text(
               errorMessage,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Colors.lightGreen,
-                fontSize: 12,
+                color: Constants.lightAccent,
+                fontSize: 15,
               ),
             ),
             SizedBox(height: 8),
@@ -65,9 +68,45 @@ class Loading extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Constants.lightAccent,
-                fontSize: 16,
+                fontSize: 15,
               ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Empty extends StatelessWidget {
+
+  Widget child;
+  final String message;
+
+  Empty({@required this.message, this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    if(child == null) child = Constants.smallEmpty;
+    return Container(
+//      width: screenWidth(context),
+//      height: screenHeight(context),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Center(child: child),
+            YMargin(8),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Constants.lightAccent,
+                fontSize: 15,
+              ),
+            ),
+
+
           ],
         ),
       ),

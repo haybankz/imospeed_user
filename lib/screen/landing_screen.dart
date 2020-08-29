@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:imospeed_user/screen/auth/login_screen.dart';
+import 'package:imospeed_user/screen/dashboard_screen2.dart';
 import 'package:imospeed_user/screen/onboarding_screen.dart';
 import 'package:imospeed_user/util/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,8 +22,23 @@ class _LandingState extends State<LandingScreen> {
   }
 
   Future checkFirstSeen() async {
-//    SharedPreferences prefs = await SharedPreferences.getInstance();
-//    bool _seen = (prefs.getBool('seen') ?? false);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool _seen = (prefs.getBool(Constants.kFirstSeen) ?? false);
+    if(_seen){
+      String token = prefs.getString(Constants.kToken);
+
+      if(token == null){
+        Navigator.of(context).pushReplacement(
+            new MaterialPageRoute(builder: (context) => LoginScreen()));
+      }else{
+        Navigator.of(context).pushReplacement(
+            new MaterialPageRoute(builder: (context) => DashBoardScreen2()));
+      }
+    }else{
+
+      Navigator.of(context).pushReplacement(
+          new MaterialPageRoute(builder: (context) => OnBoardingScreen()));
+    }
 //
 //
 //    SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -40,15 +57,17 @@ class _LandingState extends State<LandingScreen> {
 //          new MaterialPageRoute(builder: (context) => new Walkthrough()));
 
 //    }
-          Navigator.of(context).pushReplacement(
-          new MaterialPageRoute(builder: (context) => OnBoardingScreen()));
+//          Navigator.of(context).pushReplacement(
+//          new MaterialPageRoute(builder: (context) => OnBoardingScreen()));
+
+
   }
 
   @override
   void initState() {
     super.initState();
 //    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top]);
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+//    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,

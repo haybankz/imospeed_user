@@ -11,10 +11,10 @@ import 'package:provider/provider.dart';
 class StateDropDownWidget extends StatefulWidget {
 
   final String hintText;
-  
+//  String initialValue;
   final Function(String) onSelect;
 
-  StateDropDownWidget({@required this.hintText, @required this.onSelect});
+  StateDropDownWidget({@required this.hintText, @required this.onSelect,});
 
   @override
   _StateDropDownState createState() => _StateDropDownState();
@@ -53,7 +53,7 @@ class _StateDropDownState extends State<StateDropDownWidget> {
       children: <Widget>[
 
         Card(
-          elevation: 3.0,
+          elevation: 0.5,
           child: Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
@@ -71,11 +71,14 @@ class _StateDropDownState extends State<StateDropDownWidget> {
                   isExpanded: true,
                   isDense: true,
                   value: currentSelectedValue,
+//                  value: widget.initialValue,
                   onChanged: (value) {
                     if(value.toString().isNotEmpty && value != currentSelectedValue) {
+//                    if(value.toString().isNotEmpty && value != widget.initialValue) {
                       widget.onSelect(value);
                       setState(() {
                         currentSelectedValue = value;
+//                        widget.initialValue = value;
                       });
                     }
 
@@ -138,7 +141,7 @@ class _AreaDropDownState extends State<AreaDropDownWidget> {
       children: <Widget>[
 
         Card(
-          elevation: 3.0,
+          elevation: 0.5,
           child: Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(

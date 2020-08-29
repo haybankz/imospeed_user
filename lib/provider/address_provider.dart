@@ -6,6 +6,7 @@ import 'package:imospeed_user/model/response/address_response.dart';
 import 'package:imospeed_user/model/response/addresses_response.dart';
 import 'package:imospeed_user/service/api_response.dart';
 import 'package:imospeed_user/service/repository/address_repository.dart';
+import 'package:imospeed_user/util/constants.dart';
 
 class AddressProvider extends ChangeNotifier{
   AddressRepository _addressRepository = locator<AddressRepository>();
@@ -51,6 +52,13 @@ class AddressProvider extends ChangeNotifier{
     notifyListeners();
 
     updateAddressResponse = await _addressRepository.updateAddress(addressId, request);
+    if(updateAddressResponse.status == Status.COMPLETED){
+      if(request.addressType == Constants.kSource){
+        getPickUpAddresses();
+      }else{
+        getDeliveryAddresses();
+      }
+    }
     notifyListeners();
 
     return updateAddressResponse;
@@ -66,6 +74,16 @@ class AddressProvider extends ChangeNotifier{
 
     return deleteAddressResponse;
 
+  }
+
+  removeAddress(AddressType addressType, Address address){
+    if(addressType == AddressType.PICKUP){
+      pickupAddressResponse.data.addresses.remove(address);
+    }else{
+      deliveryAddressResponse.data.addresses.remove(address);
+    }
+
+    notifyListeners();
   }
 
 

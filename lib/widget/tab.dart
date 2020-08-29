@@ -34,56 +34,59 @@ class _TabState extends State<TabWidget> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            width: screenWidth(context),
-            decoration: BoxDecoration(
-                color: Constants.lightPrimary,
-                border:
-                Border(bottom: BorderSide(color: Colors.grey, width: 0.8))),
-            child: TabBar(
-              controller: _tabController,
-              indicatorColor: Constants.lightAccent,
-              isScrollable: widget.scrollableTab,
-              labelPadding: EdgeInsets.only(
-                left: 10,
-                right: 10,
-              ),
-              indicatorPadding: EdgeInsets.only(left: 0, right: 0),
-              indicatorSize: TabBarIndicatorSize.tab,
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Container(
+          width: screenWidth(context),
+          decoration: BoxDecoration(
+              color: Constants.offWhite,
+//              border: Border(bottom: BorderSide(color: Colors.grey, width: 0.8)),
+          ),
+          child: TabBar(
+            controller: _tabController,
+            indicatorColor: Constants.yellow,
+            isScrollable: widget.scrollableTab,
+
+            labelPadding: EdgeInsets.only(
+              left: 10,
+              right: 10,
+            ),
+//            indicatorPadding: EdgeInsets.only(left: 50, right: 50),
+            indicatorSize: TabBarIndicatorSize.tab,
+//            indicatorWeight: 2.0,
+//            indicator: BoxDecoration(
+//              color: Constants.yellow
+//            ),
 //              tabs: tabList
-              tabs: widget.tabs
-                  .map((tabTitle) => SizedBox(
-                key: new PageStorageKey(tabTitle),
-                height: 36,
-                child: Tab(
-                  child: Text(
-                    '$tabTitle',
-                    style: TextStyle(
-                        color: Colors.black.withOpacity(0.6), fontSize: 13),
-                  ),
+            tabs: widget.tabs
+                .map((tabTitle) => SizedBox(
+              key: new PageStorageKey(tabTitle),
+              height: 40,
+              child: Tab(
+                child: Text(
+                  '$tabTitle',
+                  style: TextStyle(
+                      color: Constants.darkAccent, fontSize: 15),
                 ),
-              ))
-                  .toList(),
+              ),
+            ))
+                .toList(),
+          ),
+        ),
+//        YMargin(4),
+        Expanded(
+          child: Container(
+            color: Constants.offWhite,
+            width: screenWidth(context,),
+            child: TabBarView(
+              controller: _tabController,
+              children: widget.views,
             ),
           ),
-//        YMargin(4),
-          Expanded(
-            child: Container(
-              color: Constants.offWhite,
-              width: screenWidth(context,),
-              child: TabBarView(
-                controller: _tabController,
-                children: widget.views,
-              ),
-            ),
-          )
-        ],
-      ),
+        )
+      ],
     );
   }
 

@@ -1,10 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:imospeed_user/screen/login_screen.dart';
+import 'package:imospeed_user/screen/auth/login_screen.dart';
 import 'package:imospeed_user/util/constants.dart';
 import 'package:imospeed_user/util/margin.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   static final style = TextStyle(
@@ -58,7 +59,7 @@ class _OnBoardingState extends State<OnBoardingScreen> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            FlutterLogo(),
+            Image.asset('assets/images/imospeed_logo.png', height: 100, width: 150,),
             Padding(
               padding: EdgeInsets.all(20.0),
             ),
@@ -69,11 +70,11 @@ class _OnBoardingState extends State<OnBoardingScreen> {
                   style: OnBoardingScreen.style,
                 ),
                 Text(
-                  "It's Me",
+                  "Lorem Ipsum",
                   style: OnBoardingScreen.style,
                 ),
                 Text(
-                  "Sahdeep",
+                  "Lorem Ipsum Lorem Ipsum",
                   style: OnBoardingScreen.style,
                 ),
               ],
@@ -90,7 +91,7 @@ class _OnBoardingState extends State<OnBoardingScreen> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            FlutterLogo(),
+            Image.asset('assets/images/imospeed_logo.png', height: 100, width: 150,),
             Padding(
               padding: EdgeInsets.all(20.0),
             ),
@@ -105,7 +106,7 @@ class _OnBoardingState extends State<OnBoardingScreen> {
                   style: OnBoardingScreen.style,
                 ),
                 Text(
-                  "Liquid Swipe",
+                  "Lorem Ipsum",
                   style: OnBoardingScreen.style,
                 ),
               ],
@@ -122,7 +123,7 @@ class _OnBoardingState extends State<OnBoardingScreen> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            FlutterLogo(),
+            Image.asset('assets/images/imospeed_logo.png', height: 100, width: 150,),
             Padding(
               padding: EdgeInsets.all(20.0),
             ),
@@ -133,11 +134,11 @@ class _OnBoardingState extends State<OnBoardingScreen> {
                   style: OnBoardingScreen.style,
                 ),
                 Text(
-                  "Fork!",
+                  "Lorem Ipsum Ipsum",
                   style: OnBoardingScreen.style,
                 ),
                 Text(
-                  "Give Star!",
+                  "GLorem Ipsum",
                   style: OnBoardingScreen.style,
                 ),
               ],
@@ -186,7 +187,7 @@ class _OnBoardingState extends State<OnBoardingScreen> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            FlutterLogo(),
+            Image.asset('assets/images/imospeed_logo.png', height: 100, width: 150,),
             Padding(
               padding: EdgeInsets.all(20.0),
             ),
@@ -201,19 +202,22 @@ class _OnBoardingState extends State<OnBoardingScreen> {
                   style: OnBoardingScreen.style,
                 ),
                 Text(
-                  "Thank You",
+                  "Lorem",
                   style: OnBoardingScreen.style,
                 ),
                 Container(
                   width: screenWidth(context, percent: 0.9),
+                  padding: EdgeInsets.only(top: 20),
 
                   alignment: Alignment.bottomRight,
-                  child: FlatButton(onPressed: (){
+                  child: FlatButton(onPressed: () async{
 
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    prefs.setBool(Constants.kFirstSeen, true);
                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginScreen()));
 //                  pageChangeCallback(0);
 
-                  }, child: Text("Get Started",)),
+                  }, child: Text("Get Started", style: TextStyle(color: Constants.lightAccent, fontSize: 18),)),
                 )
               ],
             ),

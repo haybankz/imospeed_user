@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:imospeed_user/util/constants.dart';
+import 'package:line_icons/line_icons.dart';
 
 class Destination {
   final String title;
@@ -18,34 +19,34 @@ class Destination {
 //  Destination(title: 'Settings', icon: ImageIcon(AssetImage('assets/icons/settings.png'), size: 24,),),
 //];
 
-List<Destination> allDestination = [
-  Destination(
-    title: 'Dashboard',
-    icon: Icon(Icons.home,
-      size: 18,),
-    activeIcon: Icon(Icons.home,
-        size: 20, color: Constants.darkAccent,),
-  ),
-  Destination(
-    title: 'Deliveries',
-    icon: Icon(Icons.message,
-        size: 18),
-    activeIcon: Icon(Icons.message,
-        size: 20, color: Constants.darkAccent),
-  ),
+List<Destination> logisticsDestination = [
 //  Destination(
-//    title: 'Favourite',
-//    icon: SvgPicture.asset('assets/svg/fav_inactive.svg',
-//        width: 18, height: 18),
-//    activeIcon: SvgPicture.asset('assets/svg/fav_active.svg',
-//        width: 20, height: 20),
+//    title: 'Dashboard',
+//    icon: Icon(LineIcons.bars,
+//      size: 18,),
+//    activeIcon: Icon(LineIcons.bars,
+//        size: 24, color: Constants.yellow,),
 //  ),
   Destination(
-    title: 'More',
-    icon: Icon(Icons.more_vert,
+    title: 'Deliveries',
+    icon: Icon(LineIcons.inbox,
         size: 18),
-    activeIcon: Icon(Icons.more_vert,
-        size: 20, color: Constants.darkAccent,),
+    activeIcon: Icon(LineIcons.inbox,
+        size: 24, color: Constants.yellow),
+  ),
+  Destination(
+    title: 'Address',
+    icon: Icon(LineIcons.map_signs,
+        size: 18),
+    activeIcon: Icon(LineIcons.map_signs,
+        size: 24, color: Constants.yellow),
+  ),
+  Destination(
+    title: 'Rate Calculator',
+    icon: Icon(LineIcons.calculator,
+        size: 18),
+    activeIcon: Icon(LineIcons.calculator,
+        size: 24, color: Constants.yellow,),
   ),
 ];
 

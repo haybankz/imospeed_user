@@ -1,121 +1,139 @@
-//
-//import 'package:flutter/cupertino.dart';
-//import 'package:flutter/material.dart';
-//import 'package:imospeed_user/provider/address_provider.dart';
-//import 'package:imospeed_user/util/margin.dart';
-//import 'package:provider/provider.dart';
-//
-//class SSingleChoiceAddressChips extends StatefulWidget {
-//  final List choices;
-////  String selected;
-//  final Function(String) onChanged;
-//
-//  SSingleChoiceAddressChips(
-//      {@required this.choices, @required this.onChanged});
-//
-//  @override
-//  _SSingleChoiceChipsState createState() => _SSingleChoiceChipsState();
-//}
-//
-//class _SSingleChoiceChipsState extends State<SSingleChoiceAddressChips> {
-////  String _selected = '';
+
+
+import 'package:flutter/material.dart';
+import 'package:imospeed_user/model/address.dart';
+import 'package:imospeed_user/provider/address_provider.dart';
+import 'package:imospeed_user/util/constants.dart';
+import 'package:imospeed_user/util/margin.dart';
+import 'package:provider/provider.dart';
+
+class SingleChoiceAddressChips extends StatefulWidget {
+  final List<Address> choices;
+  final String selectedId;
+  final Function(Address) onChanged;
+
+  SingleChoiceAddressChips(
+      {@required this.choices, @required this.onChanged, @required this.selectedId});
+
+  @override
+  _SSingleChoiceChipsState createState() => _SSingleChoiceChipsState();
+}
+
+class _SSingleChoiceChipsState extends State<SingleChoiceAddressChips> {
+
 //  AddressProvider _provider;
-//
-//  @override
-//  Widget build(BuildContext context) {
+
+  @override
+  Widget build(BuildContext context) {
 //    _provider = Provider.of<AddressProvider>(context);
-//    return _listChoice(context);
-//  }
-//
-//  _listChoice(BuildContext context) {
-//    return Consumer<CheckOutViewModel>(
-//      builder: (ctx, model, w){
-//        String selected = model.deliveryAddress.address_text;
-//        return Container(
-//          height: 30,
-//          child: ListView.builder(
-//            scrollDirection: Axis.horizontal,
-//            itemCount: widget.choices.length,
-//            itemBuilder: (context, index) => Row(
-//              children: <Widget>[
-//                ChoiceChip(
-//                  shape: RoundedRectangleBorder(
-//                    borderRadius: BorderRadius.circular(4.0),
-//                    side: BorderSide(
-//                      color: Color(0xff309378),
-//                    ),
-//                  ),
-////            padding: EdgeInsets.all(0),
-//                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-//
-//                  selectedColor: Color(0xff71dec0),
-//                  labelPadding: EdgeInsets.all(-5),
-////            clipBehavior: Clip.antiAlias,
-//                  padding:
-//                  EdgeInsets.only(left: 16, right: 16, top: -12, bottom: -12),
-//
-//                  labelStyle: TextStyle(
-//                      color: selected == '${widget.choices[index]}'
-//                          ? Colors.white
-//                          : Color(0xff309378),
-//                      fontWeight: FontWeight.w400,
-//                      fontSize: 13),
-//                  backgroundColor: Colors.white,
-//                  label: Text('${widget.choices[index]}'),
-//                  pressElevation: 5,
-//                  selected: selected == '${widget.choices[index]}',
-//                  onSelected: (bool selected) {
-////                  setState(() {
-////            if(_selected.contains('${widget.choices[index]}'))
-////              _selected.remove('${widget.choices[index]}');
-////            else _selected.add('${widget.choices[index]}');
-//
-//                    Address coordinate;
-//                    for (Address address in addModel.allAddressResponse.data?.address) {
-//                      if (address.address_text == widget.choices[index]) {
-//                        coordinate = address;
-//                        break;
-//                      }
-//                    }
-//
-//                    if(coordinate != null){
-//                      List<String> co = coordinate.address_co_ordinate.split(',');
-//                      double lat = double.parse(co[0]);
-//                      double lng = double.parse(co[1]);
-//                      a.LatLng latlng = a.LatLng(lat, lng);
-//
-//                      List<a.LatLng> vertices = List();
-//                      List<Point> points = model.regionResponse.data.region.points;
-//                      for(final point in points){
-//                        vertices.add(a.LatLng(double.parse(point.lat), double.parse(point.long)));
-//                      }
-////                      bool withinRegion = _checkIfValidMarker(latlng, model);
-//                      bool withinRegion = a.PolygonUtil.containsLocation(latlng, vertices, true);
-//                      if(withinRegion){
-//                        setState(() {
-//                          widget.onChanged(widget.choices[index]);
-//                        });
-//                      }else{
-//                        Toast.show('The selected address is not within the restaurant region.\nPlease select/add an address within the region', context);
-//                      }
-//                    }else{
-//                      setState(() {
-//                        widget.onChanged(widget.choices[index]);
-//                      });
-//                    }
-//
-//
-//
-////                  });
-//                  },
-//                ),
-//                XMargin(10),
-//              ],
-//            ),
-//          ),
-//        );},
-//    );
-//  }
-//
-//
-//}
+    return _listChoice(context);
+  }
+
+  _listChoice(BuildContext context) {
+
+//        String selected = model.pickUpAddress.id;
+        return Container(
+          color: Constants.offWhite,
+//          height: 80,
+          constraints: BoxConstraints(maxHeight: 120),
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: widget.choices.length,
+            shrinkWrap: true,
+            itemBuilder: (context, index) => Row(
+              children: <Widget>[
+                XMargin(10),
+                _AddressChip(address: widget.choices[index], selected: widget.choices[index].id == widget.selectedId, onSelect: widget.onChanged),
+                XMargin(5),
+              ],
+            ),
+          ),
+        );
+
+  }
+
+
+
+}
+
+class _AddressChip extends StatelessWidget {
+
+  final Address address;
+  final bool selected;
+  final Function(Address) onSelect;
+
+  _AddressChip({@required this.address, @required this.selected, @required this.onSelect});
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 2,
+      child: Container(
+//        height: 200,
+      constraints: BoxConstraints(maxHeight: 120),
+        width: screenWidth(context, percent: 0.6),
+        decoration: BoxDecoration(
+          color: !selected
+              ? Colors.white
+              : Constants.yellow.withOpacity(0.3),
+          borderRadius: BorderRadius.all(
+            Radius.circular(5.0),
+          ),
+        ),
+        child: InkWell(
+          onTap: (){
+            onSelect(address);
+          },
+          child: Padding(
+            padding: EdgeInsets.all(10),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('${address.person}', style: TextStyle(
+                    color: selected
+                        ? Constants.darkAccent
+                        : Constants.lightAccent,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13),maxLines: 1, overflow: TextOverflow.ellipsis,),
+                Text('${address.phone}', style: TextStyle(
+                    color: selected
+                        ? Constants.darkAccent
+                        : Constants.lightAccent,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 13),maxLines: 1, overflow: TextOverflow.ellipsis,),
+                Text('${address.address},', style: TextStyle(
+                    color: selected
+                        ? Constants.darkAccent
+                        : Constants.lightAccent,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13),maxLines: 1, overflow: TextOverflow.ellipsis,),
+                Expanded(
+                  child: Text('${address.cityName},', style: TextStyle(
+                      color: selected
+                          ? Constants.darkAccent
+                          : Constants.lightAccent,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 13),maxLines: 1, overflow: TextOverflow.ellipsis,),
+                ),
+                Expanded(
+                  child: Text('${address.stateName}.', style: TextStyle(
+                      color: selected
+                          ? Constants.darkAccent
+                          : Constants.lightAccent,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 13),maxLines: 1, overflow: TextOverflow.ellipsis,),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+

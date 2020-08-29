@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:imospeed_user/screen/bottom_navigation/destination.dart';
 import 'package:imospeed_user/screen/dashboard_screen.dart';
-import 'package:imospeed_user/screen/deliveries_screen.dart';
-import 'package:imospeed_user/screen/more_screen.dart';
+import 'package:imospeed_user/screen/dashboard_screen2.dart';
+import 'package:imospeed_user/screen/logistics/deliveries_screen.dart';
+import 'package:imospeed_user/screen/logistics/my_address_screen.dart';
+import 'package:imospeed_user/screen/logistics/rate_calculator_screen.dart';
 
 class DestinationView extends StatefulWidget {
 
@@ -20,13 +22,12 @@ class _DestinationView extends State<DestinationView> {
   Widget build(BuildContext context) {
     switch(widget.destination.title){
 //      case 'Explore': return ExploreScreen();
-      case 'Dashboard': return DashBoardScreen();
+      case 'Rate Calculator': return RateCalculatorScreen();
 
       case 'Deliveries': return DeliveriesScreen();
 
-//      case 'Favourite': return FavouriteScreen();
+      case 'Address': return MyAddressScreen();
 
-      case 'More': return MoreScreen();
 
       default: return Container(
           child: Center(

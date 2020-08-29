@@ -46,6 +46,7 @@ class AuthRepository{
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.setString(Constants.kToken, response.userData.accessToken );
         preferences.setString(Constants.kName, response.userData.user.name);
+        preferences.setString(Constants.kEmail, request.email);
 
         return ApiResponse<LoginResponse>.completed(response);
 

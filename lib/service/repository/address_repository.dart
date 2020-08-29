@@ -54,7 +54,7 @@ class AddressRepository {
 
     dynamic headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
 
-    String endpoint = '/user/shipping/$addressId/fetch-single-address?address_type=${addressType == AddressType.PICKUP ? 'source' : 'destination'}';
+    String endpoint = '/user/shipping/$addressId/fetch-single-address?address_type=${addressType == AddressType.PICKUP ? Constants.kSource : Constants.kDestination}';
 
     return _helper.get(endpoint, headers).then((data){
       if(data.statusCode == 200){
@@ -107,7 +107,7 @@ class AddressRepository {
 
     dynamic headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
 
-    String endpoint = '/user/shipping/$addressId/delete-address?address_type=${addressType == AddressType.PICKUP ? 'source' : 'destination'}';
+    String endpoint = '/user/shipping/$addressId/delete-address?address_type=${addressType == AddressType.PICKUP ? Constants.kSource : Constants.kDestination}';
     return _helper.delete(endpoint, headers).then((data){
       if(data.statusCode == 200){
         return ApiResponse<String>.completed(json.decode(data.body)['title']);

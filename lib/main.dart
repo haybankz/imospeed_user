@@ -3,13 +3,15 @@ import 'package:imospeed_user/locator.dart';
 import 'package:imospeed_user/provider/address_provider.dart';
 import 'package:imospeed_user/provider/app_provider.dart';
 import 'package:imospeed_user/provider/auth_provider.dart';
+import 'package:imospeed_user/provider/delivery_provider.dart';
+import 'package:imospeed_user/provider/new_delivery_provider.dart';
 import 'package:imospeed_user/provider/new_address_provider.dart';
 import 'package:imospeed_user/provider/rate_calculator_provider.dart';
 import 'package:imospeed_user/provider/state_provider.dart';
-import 'package:imospeed_user/screen/add_address_screen.dart';
+import 'package:imospeed_user/screen/dashboard_screen2.dart';
 import 'package:imospeed_user/screen/landing_screen.dart';
 import 'package:imospeed_user/screen/onboarding_screen.dart';
-import 'package:imospeed_user/screen/rate_calculator_screen.dart';
+import 'package:imospeed_user/screen/logistics/rate_calculator_screen.dart';
 import 'package:imospeed_user/util/constants.dart';
 import 'package:provider/provider.dart';
 
@@ -24,6 +26,8 @@ void main() {
         ChangeNotifierProvider(create: (_) => RateCalculatorProvider()),
         ChangeNotifierProvider(create: (_) => AddressProvider()),
         ChangeNotifierProvider(create: (_) => NewAddressProvider()),
+        ChangeNotifierProvider(create: (_) => NewDeliveryProvider()),
+        ChangeNotifierProvider(create: (_) => DeliveryProvider()),
       ],
       child: MyApp(),
     ),
@@ -46,6 +50,8 @@ class MyApp extends StatelessWidget {
 //          home: RateCalculatorScreen(),
 //          home: AddAddressScreen(addressType: AddressType.PICKUP),
           home: LandingScreen(),
+//          home: OnBoardingScreen(),
+//          home: DashBoardScreen2(),
         );
       },
     );

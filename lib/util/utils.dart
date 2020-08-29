@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class ImoUtil {
 
   static String parseError(Map<dynamic, dynamic> map){
@@ -12,5 +14,12 @@ class ImoUtil {
     }
 
     return error.join(',');
+  }
+
+  static String formatAmount(double amount){
+    final formatCurrency = new NumberFormat.currency(locale: "en_US",
+        symbol: "");
+//    return formatCurrency.format(amount).replaceAll('.00', '');
+    return formatCurrency.format(amount);
   }
 }

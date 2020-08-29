@@ -24,7 +24,7 @@ class ButtonWidget extends StatelessWidget {
         child: !loading ? Text(
           text,
           textAlign: TextAlign.center,
-          style: TextStyle(color: Constants.lightPrimary, fontWeight: FontWeight.w600, fontSize: 15)
+          style: TextStyle(color: Constants.lightPrimary, fontWeight: FontWeight.w500, fontSize: 16)
         ) : Container( height: 20, width: 20, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Constants.lightPrimary), strokeWidth: 2,)
         ),
         shape: RoundedRectangleBorder(

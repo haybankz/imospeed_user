@@ -20,9 +20,16 @@ class RateCalculatorScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Constants.offWhite,
       appBar: AppBar(
-        brightness: Brightness.light,
-        elevation: 2,
-        title: Text('Rate Calculator'),
+        automaticallyImplyLeading: false,
+        flexibleSpace: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            XMargin(20),
+            Image.asset('assets/images/imospeed_logo.png', width: 36, height: double.infinity,),
+          ],
+        ),
+        title:Text('Rate Calculator'),
         centerTitle: true,
       ),
       body: _rateCalculatorWidget(context),

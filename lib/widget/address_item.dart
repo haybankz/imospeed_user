@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:imospeed_user/model/address.dart';
 import 'package:imospeed_user/provider/address_provider.dart';
-import 'package:imospeed_user/screen/update_address_screen.dart';
+import 'package:imospeed_user/screen/logistics/update_address_screen.dart';
 import 'package:imospeed_user/service/api_response.dart';
 import 'package:imospeed_user/util/constants.dart';
 import 'package:imospeed_user/util/margin.dart';
@@ -48,19 +48,20 @@ class AddressItem extends StatelessWidget{
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('${address.person},'),
+                  Text('${address.person},', style: TextStyle(color: Constants.darkAccent, fontWeight: FontWeight.w500)),
+                  Text('${address.phone},', style: TextStyle(color: Constants.darkAccent,)),
                   YMargin(4),
-                  Text('${address.address}'),
-                  YMargin(4),
-                  Text('${address.cityName}'),
-                  YMargin(4),
-                  Text('${address.stateName}'),
+                  Text('${address.address}', style: TextStyle(color: Colors.orange, fontWeight: FontWeight.w500)),
+//                  YMargin(4),
+                  Text('${address.cityName}', style: TextStyle(color: Constants.darkAccent,)),
+//                  YMargin(4),
+                  Text('${address.stateName}', style: TextStyle(color: Constants.darkAccent,)),
                 ],
               ),
             ),
 
             GestureDetector(
-              child: Icon(Icons.more_vert),
+              child: Icon(Icons.more_vert, color: Constants.yellow,),
               onTapDown: (TapDownDetails details){
                 _showPopupMenu(context, details.globalPosition);
               },
@@ -82,7 +83,7 @@ class AddressItem extends StatelessWidget{
         PopupMenuItem<String>(
             child: const Text('Edit'), value: 'Edit'),
         PopupMenuItem<String>(
-            child: const Text('Delete'), value: 'Delete'),
+            child: const Text('Delete', style: TextStyle(color: Colors.red),), value: 'Delete'),
       ],
       elevation: 8.0,
     );
@@ -92,14 +93,38 @@ class AddressItem extends StatelessWidget{
     if(answer == 'Edit'){
       Navigator.push(context, MaterialPageRoute(builder: (_) => UpdateAddressScreen(address: address, addressType: addressType)));
     }else if(answer == 'Delete'){
-      _showLoading(context);
-      ApiResponse<String> response =  await _provider.deleteAddress(addressType, address.id);
-      Navigator.pop(context);
+      bool close = await showDialog(
+          context: context,
+          builder: (_) =>
+              AlertDialog(
+                content: Text('Are you sure you want to delete?', style: TextStyle(color: Constants.darkAccent)),
+                actions: <Widget>[
+                  FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context, true);
+//              Navigator.pushAndRemoveUntil(context,
+//                  MaterialPageRoute(builder: (_) => HomeScreen()), (route) => true);
+                      },
+                      child: Text('Yes', style: TextStyle(color: Colors.red),)),
+                  FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context, false);
+                      },
+                      child: Text('No', style: TextStyle(color: Constants.darkAccent),)),
+                ],
+              ));
+      if(close) {
+        _showLoading(context);
+        ApiResponse<String> response = await _provider.deleteAddress(
+            addressType, address.id);
+        Navigator.pop(context);
 
-      if(response.status == Status.ERROR){
-        Toast.show(response.message, context);
-      }else{
-        Toast.show(response.data, context);
+        if (response.status == Status.ERROR) {
+          Toast.show(response.message, context);
+        } else {
+          _provider.removeAddress(addressType, address);
+          Toast.show(response.data, context);
+        }
       }
 
     }
